@@ -1,11 +1,20 @@
 FROM python:3.12-slim
 
+# Установим рабочую директорию
 WORKDIR /app
 
-COPY requirements.txt ./requirements.txt
+# Копируем файл зависимостей
+COPY requirements.txt /app/
 
-RUN pip install -r requirements.txt
+# Устанавливаем зависимости
+RUN pip install --no-cache-dir -r requirements.txt
 
-COPY task/. ./
+# Копируем содержимое папки task в /app/task
+COPY task /app/task
 
-ENTRYPOINT ["python", "main.py"]
+# Устанавливаем рабочую директорию как /app
+WORKDIR /app
+
+# Запускаем main.py как модуль
+CMD ["python", "-m", "task.main"]
+
